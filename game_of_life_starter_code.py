@@ -59,7 +59,7 @@ def start():
     pen.write("Choose the boundary condition in the shell", font=("Verdana", 20, "normal"), align = "center")
     wn.update()
     boundaryCondition = int(input("Boundary Condition? Enter 1 for Constant or 2 for Periodic: "))
-                                #邊界選擇，1代表週期性邊界，2代表固定邊界
+                                    #邊界選擇，1代表週期性邊界，2代表固定邊界
     pen.clear()
     pen.write("Press ESC to exit", font=("Verdana", 20, "normal"), align = "center")
     
