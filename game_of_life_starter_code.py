@@ -2,7 +2,7 @@ import turtle
 import random
 import time
 import math
-                      
+
 def initializeTheCells():
     for i in range(35):
         cells.append([])
@@ -70,6 +70,61 @@ def start():
         # For a cell at row i and column j find the sum of the neighbors' cell
         # values by considering the boundary condition
         # Update each cell to alive/dead based on the rules. 
+
+        if boundaryCondition == 1:
+            #如果周圍三個都是死的(0),那中間那個就是死的
+            #if byebye == 3 --> center is dead
+            byebye = 0
+            if cells[i][j].state == 1: #中間死
+                if cells[i-1][j].state == 0: #上面死
+                    byebye = byebye + 1
+                else:
+                    byebye = byebye - 1
+                
+                if cells[i][j-1].state == 0: #左邊死
+                    byebye = byebye + 1
+                else:
+                    byebye = byebye - 1
+
+                if cells[i][j+1].state == 0: #右邊死
+                    byebye = byebye + 1
+                else:
+                    byebye = byebye - 1
+
+                if cells[i+1][j].state == 0: #下面死
+                    byebye = byebye + 1
+                else:
+                    byebye = byebye - 1
+                
+                if cells[i-1][j-1].state == 0: #左上角死
+                    byebye = byebye + 1
+                else:
+                    byebye = byebye - 1
+
+                if cells[i-1][j+1].state == 0: #右上角死
+                    byebye = byebye + 1
+                else:
+                    byebye = byebye - 1
+
+                if cells[i+1][j-1].state == 0: #左下角死
+                    byebye = byebye + 1
+                else:
+                    byebye = byebye - 1
+
+                if cells[i+1][j+1].state == 0: #右下角死
+                    byebye = byebye + 1
+                else:
+                    byebye = byebye - 1
+
+                if byebye < 2:
+                    cells[i][j].state = 0
+                    cells[i][j].color("gray90") #死
+            
+        elif boundaryCondition == 2:
+            
+        else:
+            print("Pls enter 1 or 2 and try again.")
+            boundaryCondition = int(input("Boundary Condition? Enter 1 for Constant or 2 for Periodic: "))
 
 
         time.sleep(0.05)
