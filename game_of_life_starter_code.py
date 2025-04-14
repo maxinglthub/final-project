@@ -3,6 +3,9 @@ import random
 import time
 import math
 
+global i
+global j
+
 def initializeTheCells():
     for i in range(35):
         cells.append([])
@@ -74,52 +77,59 @@ def start():
         if boundaryCondition == 1:
             #如果周圍三個都是死的(0),那中間那個就是死的
             #if byebye == 3 --> center is dead
-            byebye = 0
-            if cells[i][j].state == 1: #中間死
-                if cells[i-1][j].state == 0: #上面死
-                    byebye = byebye + 1
-                else:
-                    byebye = byebye - 1
-                
-                if cells[i][j-1].state == 0: #左邊死
-                    byebye = byebye + 1
-                else:
-                    byebye = byebye - 1
 
-                if cells[i][j+1].state == 0: #右邊死
-                    byebye = byebye + 1
-                else:
-                    byebye = byebye - 1
+            if cells[i][j].state == 1: #中間活
+                byebye = 0
 
-                if cells[i+1][j].state == 0: #下面死
+                if cells[i-1][j].state == 1: #上面
                     byebye = byebye + 1
-                else:
-                    byebye = byebye - 1
-                
-                if cells[i-1][j-1].state == 0: #左上角死
+                if cells[i][j-1].state == 1: #左邊
                     byebye = byebye + 1
-                else:
-                    byebye = byebye - 1
+                if cells[i][j+1].state == 1: #右邊
+                    byebye = byebye + 1
+                if cells[i+1][j].state == 1: #下面
+                    byebye = byebye + 1
+                if cells[i-1][j-1].state == 1: #左上
+                    byebye = byebye + 1
+                if cells[i-1][j+1].state == 1: #右上
+                    byebye = byebye + 1
+                if cells[i+1][j-1].state == 1: #左下
+                    byebye = byebye + 1
+                if cells[i+1][j+1].state == 1: #右下
+                    byebye = byebye + 1
 
-                if cells[i-1][j+1].state == 0: #右上角死
-                    byebye = byebye + 1
-                else:
-                    byebye = byebye - 1
-
-                if cells[i+1][j-1].state == 0: #左下角死
-                    byebye = byebye + 1
-                else:
-                    byebye = byebye - 1
-
-                if cells[i+1][j+1].state == 0: #右下角死
-                    byebye = byebye + 1
-                else:
-                    byebye = byebye - 1
-
-                if byebye < 2:
+                if byebye < 2 or byebye > 3:
                     cells[i][j].state = 0
                     cells[i][j].color("gray90") #死
-            
+                elif byebye == 2 or byebye == 3:
+                    cells[i][j].state = 1
+                    cells[i][j].color("gray0") #活
+
+            elif cells[i][j].state == 0: #中間死
+                byebye = 0
+
+                if cells[i-1][j].state == 1: #上面
+                    byebye = byebye + 1
+                if cells[i][j-1].state == 1: #左邊
+                    byebye = byebye + 1
+                if cells[i][j+1].state == 1: #右邊
+                    byebye = byebye + 1
+                if cells[i+1][j].state == 1: #下面
+                    byebye = byebye + 1
+                if cells[i-1][j-1].state == 1: #左上
+                    byebye = byebye + 1
+                if cells[i-1][j+1].state == 1: #右上
+                    byebye = byebye + 1
+                if cells[i+1][j-1].state == 1: #左下
+                    byebye = byebye + 1
+                if cells[i+1][j+1].state == 1: #右下
+                    byebye = byebye + 1
+
+                if byebye == 3:
+                    cells[i][j].state = 1
+                    cells[i][j].color("gray0") #活
+
+
         elif boundaryCondition == 2:
             
         else:
