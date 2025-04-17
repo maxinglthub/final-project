@@ -121,12 +121,6 @@ def start():
                     elif byebye == 3:
                             next_state[i][j] = 1 #活
                             cells[i][j].color("gray0")
-
-        else:
-            print("Pls enter 1 or 2 and try again.")
-            boundaryCondition = int(input("Boundary Condition? Enter 1 for Constant or 2 for Periodic: "))
-
-
         time.sleep(0.05)
         
     pen.clear()
