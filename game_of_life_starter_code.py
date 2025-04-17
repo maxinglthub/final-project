@@ -3,8 +3,6 @@ import random
 import time
 import math
 
-global i
-global j
 
 def initializeTheCells():
     for i in range(35):
@@ -62,76 +60,64 @@ def start():
     pen.write("Choose the boundary condition in the shell", font=("Verdana", 20, "normal"), align = "center")
     wn.update()
     boundaryCondition = int(input("Boundary Condition? Enter 1 for Constant or 2 for Periodic: "))
-                                    #邊界選擇，1代表週期性邊界，2代表固定邊界
+    #邊界選擇，1代表週期性邊界，2代表固定邊界
     pen.clear()
     pen.write("Press ESC to exit", font=("Verdana", 20, "normal"), align = "center")
     
     while not stop:
         wn.update()
 
-        ###### YOUR CODE #####
-        # For a cell at row i and column j find the sum of the neighbors' cell
-        # values by considering the boundary condition
-        # Update each cell to alive/dead based on the rules. 
+        if boundaryCondition == 1: #恆定邊界
+            next_state = [[0 for _ in range(35)] for _ in range(35)]
+            #佔存，這樣才不會跑太快出錯。不能用sleep因為這只是讓畫面sleep，程式已經跑完了
+            for i in range(35):
+                for j in range(35):
+                    byebye = 0
 
-        if boundaryCondition == 1:
-            #如果周圍三個都是死的(0),那中間那個就是死的
-            #if byebye == 3 --> center is dead
+            #new code(巢狀迴圈)
+            for dx in [-1, 0, 1]:
+                for dy in [-1, 0, 1]:
+                    if dx == 0 and dy ==0:
+                        continue
+                    ni= i + dx
+                    nj = j + dy
+                    if 0 <= ni < 35 and 0 <= nj < 35:
+                        if cells[ni][nj].state == 1:
+                            byebye = byebye + 1
 
-            if cells[i][j].state == 1: #中間活
-                byebye = 0
+                    if cells[i][j].state == 1:
+                        if byebye < 2 or byebye >3:
+                            next_state[i][j] = 0 #死
+                        else:
+                            next_state[i][j] = 1 #活
+                    else:
+                        if byebye == 3:
+                            next_state[i][j] = 1 #活
 
-                if cells[i-1][j].state == 1: #上面
-                    byebye = byebye + 1
-                if cells[i][j-1].state == 1: #左邊
-                    byebye = byebye + 1
-                if cells[i][j+1].state == 1: #右邊
-                    byebye = byebye + 1
-                if cells[i+1][j].state == 1: #下面
-                    byebye = byebye + 1
-                if cells[i-1][j-1].state == 1: #左上
-                    byebye = byebye + 1
-                if cells[i-1][j+1].state == 1: #右上
-                    byebye = byebye + 1
-                if cells[i+1][j-1].state == 1: #左下
-                    byebye = byebye + 1
-                if cells[i+1][j+1].state == 1: #右下
-                    byebye = byebye + 1
+        elif boundaryCondition == 2: #週期性邊界
+            next_state = [[0 for _ in range(35)] for _ in range(35)]
+            for i in range(35):
+                for j in range(35):
+                    byebye = 0
 
-                if byebye < 2 or byebye > 3:
-                    cells[i][j].state = 0
-                    cells[i][j].color("gray90") #死
-                elif byebye == 2 or byebye == 3:
-                    cells[i][j].state = 1
-                    cells[i][j].color("gray0") #活
+            for dx in [-1, 0, 1]:
+                for dy in [-1, 0, 1]:
+                    if dx == 0 and dy ==0:
+                        continue
+                    ni, nj = i + dx, j + dy
+                    if 0 <= ni < 35 and 0 <= nj < 35:
+                        if cells[ni][nj].state == 1:
+                            byebye = byebye + 1
 
-            elif cells[i][j].state == 0: #中間死
-                byebye = 0
+                    if cells[i][j].state == 1:
+                        if byebye < 2 or byebye >3:
+                            next_state[i][j] = 0 #死
+                        else:
+                            next_state[i][j] = 1 #活
+                    else:
+                        if byebye == 3:
+                            next_state[i][j] = 1 #活
 
-                if cells[i-1][j].state == 1: #上面
-                    byebye = byebye + 1
-                if cells[i][j-1].state == 1: #左邊
-                    byebye = byebye + 1
-                if cells[i][j+1].state == 1: #右邊
-                    byebye = byebye + 1
-                if cells[i+1][j].state == 1: #下面
-                    byebye = byebye + 1
-                if cells[i-1][j-1].state == 1: #左上
-                    byebye = byebye + 1
-                if cells[i-1][j+1].state == 1: #右上
-                    byebye = byebye + 1
-                if cells[i+1][j-1].state == 1: #左下
-                    byebye = byebye + 1
-                if cells[i+1][j+1].state == 1: #右下
-                    byebye = byebye + 1
-
-                if byebye == 3:
-                    cells[i][j].state = 1
-                    cells[i][j].color("gray0") #活
-
-
-        elif boundaryCondition == 2:
-            
         else:
             print("Pls enter 1 or 2 and try again.")
             boundaryCondition = int(input("Boundary Condition? Enter 1 for Constant or 2 for Periodic: "))
