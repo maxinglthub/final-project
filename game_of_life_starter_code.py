@@ -74,49 +74,53 @@ def start():
                 for j in range(35):
                     byebye = 0
 
-            #new code(巢狀迴圈)
-            for dx in [-1, 0, 1]:
-                for dy in [-1, 0, 1]:
-                    if dx == 0 and dy ==0:
-                        continue
-                    ni= i + dx
-                    nj = j + dy
-                    if 0 <= ni < 35 and 0 <= nj < 35:
-                        if cells[ni][nj].state == 1:
-                            byebye = byebye + 1
+                    #new code(巢狀迴圈)
+                    for dx in [-1, 0, 1]:
+                        for dy in [-1, 0, 1]:
+                            if dx == 0 and dy ==0:
+                                continue
+                            ni= i + dx
+                            nj = j + dy
+                            if 0 <= ni < 35 and 0 <= nj < 35:
+                                if cells[ni][nj].state == 1:
+                                    byebye = byebye + 1
 
                     if cells[i][j].state == 1:
                         if byebye < 2 or byebye >3:
                             next_state[i][j] = 0 #死
+                            cells[i][j].color("gray90")
                         else:
                             next_state[i][j] = 1 #活
-                    else:
-                        if byebye == 3:
-                            next_state[i][j] = 1 #活
+                            cells[i][j].color("gray0")
+                    elif byebye == 3:
+                        next_state[i][j] = 1 #活
+                        cells[i][j].color("gray0")
 
-        elif boundaryCondition == 2: #週期性邊界
+        elif boundaryCondition == 2: #週期性邊界(like snake game)
             next_state = [[0 for _ in range(35)] for _ in range(35)]
             for i in range(35):
                 for j in range(35):
                     byebye = 0
 
-            for dx in [-1, 0, 1]:
-                for dy in [-1, 0, 1]:
-                    if dx == 0 and dy ==0:
-                        continue
-                    ni, nj = i + dx, j + dy
-                    if 0 <= ni < 35 and 0 <= nj < 35:
-                        if cells[ni][nj].state == 1:
-                            byebye = byebye + 1
+                    for dx in [-1, 0, 1]:
+                        for dy in [-1, 0, 1]:
+                            if dx == 0 and dy ==0:
+                                continue
+                            ni = (i + dx) % 35
+                            nj = (j + dy) % 35
+                            if cells[ni][nj].state == 1:
+                                byebye = byebye + 1
 
                     if cells[i][j].state == 1:
                         if byebye < 2 or byebye >3:
                             next_state[i][j] = 0 #死
+                            cells[i][j].color("gray90")
                         else:
                             next_state[i][j] = 1 #活
-                    else:
-                        if byebye == 3:
+                            cells[i][j].color("gray0")
+                    elif byebye == 3:
                             next_state[i][j] = 1 #活
+                            cells[i][j].color("gray0")
 
         else:
             print("Pls enter 1 or 2 and try again.")
